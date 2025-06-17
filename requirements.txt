@@ -2,3 +2,5 @@ osxphotos
 nicegui
 pillow
 pillow-heif
+pandas
+plotly
