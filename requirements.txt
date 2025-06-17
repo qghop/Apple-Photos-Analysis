@@ -1,0 +1,4 @@
+osxphotos
+nicegui
+pillow
+pillow-heif
