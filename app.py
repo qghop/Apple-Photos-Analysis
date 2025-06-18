@@ -2,12 +2,13 @@ from nicegui import ui
 import osxphotos
 from PIL import Image
 import pillow_heif
-from datetime import datetime
+from datetime import datetime, timedelta
 import pandas as pd
 import plotly.express as px
 import helper
 
 pillow_heif.register_heif_opener()
+
 
 print("Opening database, may take a moment...")
 db = osxphotos.PhotosDB()
@@ -15,6 +16,7 @@ if not db:
     print("No Photos Library found. Exiting.")
     exit(1)
 print("Database opened successfully.")
+
 
 # Landing page
 @ui.page('/')
@@ -49,7 +51,7 @@ def landing_page():
 
 
 # Map View
-@ui.page('/map/')
+@ui.page('/map')
 def map_view():
     ui.label('Map View')
     
@@ -62,23 +64,19 @@ def map_view():
             loc_df = pd.concat([loc_df, pd.DataFrame({
                 'latitude': [p.latitude],
                 'longitude': [p.longitude],
-                'magnitude': 1,
-                'date': [p.date_original],
-                'tz_offset': [p.tzoffset],
+                'date_str': [p.date_original.strftime("%b %-d, %Y at %-I:%M %p") if p.date_original else "Unknown"],
             })], ignore_index=True)
     
-    fig = px.density_map(loc_df, lat='latitude', lon='longitude', z='magnitude', 
-                         radius=30, 
-                         title='Photo Locations',
-                         center=dict(lat=0, lon=180), zoom=0,
-                         #animation_frame=loc_df['date'].dt.year.astype(str),
-                         color_continuous_scale='Viridis')
+    fig = px.density_map(loc_df, 
+                         lat='latitude', 
+                         lon='longitude', 
+                         radius=5, 
+                         center=dict(lat=0, lon=180),
+                         zoom=0,
+                         map_style='carto-positron',
+                         hover_name='date_str')
     
-    ui.plotly(fig).classes('w-full h-full')
+    ui.plotly(fig).classes('w-full h-[80vh]')
 
-# Test view
-@ui.page('/test1')
-def test_view1():
-    ui.label('Test View 1')
 
 ui.run(reload=False)
