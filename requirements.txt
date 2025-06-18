@@ -3,4 +3,5 @@ nicegui
 pillow
 pillow-heif
 pandas
+numpy
 plotly
