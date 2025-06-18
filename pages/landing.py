@@ -2,7 +2,7 @@ from nicegui import ui
 from helpers import helper
 from helpers.osxphotos_db import get_photos
 
-@ui.page('/')
+@ui.page('/', title='Apple Photos Analytics')
 def landing_page():
     ui.label('Landing Page')
     ui.link('Go to Map View', '/map').classes('button')
