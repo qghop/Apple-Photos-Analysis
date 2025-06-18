@@ -19,7 +19,7 @@ print("Database opened successfully.")
 
 
 # Landing page
-@ui.page('/')
+@ui.page('/landing')
 def landing_page():
     ui.label('Landing Page')
     # Button to navigate to test view 1
@@ -59,13 +59,14 @@ def map_view():
     photos = db.photos()
     loc_df = pd.DataFrame()
     
-    for p in photos:
-        if p.latitude and p.longitude and not p.hasadjustments:
-            loc_df = pd.concat([loc_df, pd.DataFrame({
-                'latitude': [p.latitude],
-                'longitude': [p.longitude],
-                'date_str': [p.date_original.strftime("%b %-d, %Y at %-I:%M %p") if p.date_original else "Unknown"],
-            })], ignore_index=True)
+    loc_df = pd.DataFrame([
+        {
+            'latitude': p.latitude,
+            'longitude': p.longitude,
+            'date_str': p.date_original.strftime("%b %-d, %Y at %-I:%M %p") if p.date_original else "Unknown"
+        }
+        for p in photos if p.latitude and p.longitude and not p.hasadjustments
+    ])
     
     fig = px.density_map(loc_df, 
                          lat='latitude', 
@@ -77,6 +78,29 @@ def map_view():
                          hover_name='date_str')
     
     ui.plotly(fig).classes('w-full h-[80vh]')
+
+
+# Timeline View
+@ui.page('/')
+def timeline_view():
+    ui.label('Timeline View')
+    
+    # Get all photos with date
+    photos = db.photos()
+    
+    timeline_df = pd.DataFrame([
+        {
+            'date_original': p.date_original,
+            'latitude': p.latitude,
+            'longitude': p.longitude,
+            'utc_time': p.date_original - timedelta(seconds=p.tzoffset) if p.tzoffset else p.date_original,
+        }
+        for p in photos if p.date_original and p.latitude and p.longitude
+    ])
+
+    timeline_df.sort_values(by='date_original', inplace=True)
+    
+    
 
 
 ui.run(reload=False)
