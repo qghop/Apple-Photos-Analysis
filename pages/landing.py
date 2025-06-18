@@ -7,6 +7,7 @@ def landing_page():
     ui.label('Landing Page')
     ui.link('Go to Map View', '/map').classes('button')
     ui.link('Go to Timeline View', '/timeline').classes('button')
+    ui.link('Go to Calendar View', '/calendar').classes('button')
 
     # photos = get_photos()
     # sorted_photos = sorted([
