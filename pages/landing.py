@@ -9,6 +9,7 @@ def landing_page():
     ui.link('Go to Timeline View', '/timeline').classes('button')
     ui.link('Go to Calendar View', '/calendar').classes('button')
     ui.link('Go to Scores View', '/scores').classes('button')
+    ui.link('Go to People View', '/people').classes('button')
 
     # photos = get_photos()
     # sorted_photos = sorted([
