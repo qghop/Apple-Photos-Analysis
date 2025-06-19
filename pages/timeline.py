@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 
-@ui.page('/timeline', name='Timeline View')
+@ui.page('/timeline', title='Timeline View')
 def timeline_view():
     ui.label('Timeline View')
     ui.link('Go Back', '/').classes('button')

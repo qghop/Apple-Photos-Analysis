@@ -3,7 +3,7 @@ from helpers.osxphotos_db import get_photos
 import pandas as pd
 from plotly_calplot import calplot
 
-@ui.page('/calendar', name='Calendar View')
+@ui.page('/calendar', title='Calendar View')
 def calendar_view():
     ui.label('Calendar View')
     ui.link('Go Back', '/').classes('button')

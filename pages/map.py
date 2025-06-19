@@ -3,7 +3,7 @@ from helpers.osxphotos_db import get_photos
 import pandas as pd
 import plotly.express as px
 
-@ui.page('/map', name='Map View')
+@ui.page('/map', title='Map View')
 def map_view():
     ui.label('Map View')
     ui.link('Go Back', '/').classes('button')
