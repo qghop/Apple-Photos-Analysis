@@ -10,7 +10,7 @@ WIP
 Check osxphotos repository for up-to-date requirements. Tested only on my Intel Macbook Pro, MacOS 15.5.
 
 > pip install -r requirements.txt
-
+>
 > python main.py
 
 ## Screenshots
